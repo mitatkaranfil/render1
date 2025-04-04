@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       // Proxy API requests to backend
       '/api': {
-        target: 'https://server-production-fddc.up.railway.app',
+        target: 'https://cosmofybot.up.railway.app',
         changeOrigin: true,
         secure: true,
       }
@@ -20,7 +20,7 @@ export default defineConfig({
     port: process.env.PORT || 5173,
     host: '0.0.0.0',
     allowedHosts: [
-      'server-production-fddc.up.railway.app',
+      'cosmofybot.up.railway.app',
       '*.railway.app'
     ]
   },
