@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Monorepo for Cosmofy Bot application",
   "main": "backend/src/index.js",
+  "type": "module",
   "scripts": {
     "start": "node backend/src/index.js",
-    "postinstall": "cd backend && npm install"
+    "install:backend": "cd backend && npm install"
   },
   "engines": {
     "node": ">=16.0.0"

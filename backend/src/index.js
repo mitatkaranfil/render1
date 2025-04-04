@@ -27,61 +27,33 @@ console.log('Process ID:', process.pid);
 console.log('Node Version:', process.version);
 console.log('Platform:', process.platform);
 
-// CORS Middleware
-const corsOptions = {
-  origin: '*', // Allow requests from any origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: '*',
-  credentials: false
-};
-
-app.use(cors(corsOptions));
+// Basit CORS yapılandırması - tüm isteklere izin ver
+app.use(cors());
 
 // Log CORS setup
-console.log('CORS Configuration:', corsOptions);
+console.log('CORS: Enabled for all origins');
 
-// CORS pre-flight OPTIONS işlemlerini ele almak için özel ara katman
-app.options('*', (req, res) => {
-  console.log('OPTIONS request received');
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-  res.header('Access-Control-Allow-Headers', '*');
-  res.header('Access-Control-Max-Age', '86400');
-  res.sendStatus(200);
-});
+// CORS preflight için OPTIONS işleyici
+app.options('*', cors());
 
-// Helmet sonra gelmeli
+// Temel güvenlik - Helmet ile
 app.use(helmet({ 
+  contentSecurityPolicy: false,
   crossOriginResourcePolicy: false,
-  contentSecurityPolicy: false
+  crossOriginOpenerPolicy: false,
+  crossOriginEmbedderPolicy: false
 }));
 
-// Son olarak diğer middleware'ler
-app.use(express.json()); // JSON body parser
-app.use(morgan('dev')); // Logging
+// JSON body parser
+app.use(express.json());
 
-// Rate limiting
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    status: 429,
-    success: false,
-    message: 'Too many requests, please try again later.'
-  }
+// Loglama
+app.use(morgan('dev'));
+
+// Test endpoint - Canlılık kontrolü için
+app.get('/test', (req, res) => {
+  res.send('API is working!');
 });
-
-// Apply rate limiter to all API routes
-app.use('/api', apiLimiter);
-
-// API routes
-app.use('/api/auth', authRoutes);
-app.use('/api/mining', miningRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/ads', adsRoutes);
-app.use('/api/leaderboard', leaderboardRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -100,36 +72,53 @@ app.get('/', (req, res) => {
   res.status(200).json({ 
     message: 'Cosmofy API server', 
     version: '1.0.0',
-    docs: '/api-docs',
+    test: '/test',
     health: '/health'
   });
 });
+
+// API routes - Rate limiter olmadan başlangıçta
+try {
+  app.use('/api/auth', authRoutes);
+  app.use('/api/mining', miningRoutes);
+  app.use('/api/user', userRoutes);
+  app.use('/api/ads', adsRoutes);
+  app.use('/api/leaderboard', leaderboardRoutes);
+} catch (error) {
+  console.error('Error setting up API routes:', error);
+}
 
 // Not found handler
 app.use((req, res) => {
   res.status(404).json({ 
     success: false, 
-    message: 'Resource not found' 
+    message: 'Resource not found',
+    path: req.path
   });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error('Server error:', err.stack);
+  console.error('Server error:', err);
   
   res.status(500).json({ 
     success: false, 
     message: 'Internal server error',
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    error: process.env.NODE_ENV === 'development' ? err.message : 'Server error'
   });
 });
 
-// Start server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log('===== SERVER STARTED SUCCESSFULLY =====');
-  console.log(`Server running at: http://0.0.0.0:${PORT}`);
-  console.log(`Local access URL: http://localhost:${PORT}`);
-  console.log(`API base URL: http://0.0.0.0:${PORT}/api`);
-  console.log(`Health check: http://0.0.0.0:${PORT}/health`);
-  console.log('===========================================');
-}); 
+// Server'ı başlat - process.env.PORT veya 5000 üzerinde dinliyoruz
+// Tüm arayüzlerde bağlantıları kabul etmek için '0.0.0.0' kullanıyoruz
+try {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log('===== SERVER STARTED SUCCESSFULLY =====');
+    console.log(`Server running at: http://0.0.0.0:${PORT}`);
+    console.log(`Health check: http://0.0.0.0:${PORT}/health`);
+    console.log(`Test endpoint: http://0.0.0.0:${PORT}/test`);
+    console.log('===========================================');
+  });
+} catch (error) {
+  console.error('Failed to start server:', error);
+  process.exit(1);
+} 
