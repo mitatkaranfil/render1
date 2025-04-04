@@ -2,11 +2,11 @@
   "name": "cosmofy-monorepo",
   "version": "1.0.0",
   "description": "Monorepo for Cosmofy Bot application",
-  "main": "backend/src/index.js",
+  "main": "simple-backend/index.js",
   "type": "module",
   "scripts": {
-    "start": "node backend/src/index.js",
-    "install:backend": "cd backend && npm install"
+    "start": "node simple-backend/index.js",
+    "preinstall": "npm --prefix simple-backend install"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -19,6 +19,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "express": "^4.18.2"
   }
 } 

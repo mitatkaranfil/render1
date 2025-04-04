@@ -1,5 +1,5 @@
-// En basit haliyle Express uygulaması
-const express = require('express');
+// ES Modules ile Express uygulaması
+import express from 'express';
 
 // Uygulama oluştur
 const app = express();
