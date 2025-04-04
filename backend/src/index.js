@@ -77,15 +77,23 @@ app.use('/api/leaderboard', leaderboardRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
+  console.log('Health check requested');
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    version: '1.0.0'
+  });
 });
 
 // Root endpoint
 app.get('/', (req, res) => {
+  console.log('Root endpoint requested');
   res.status(200).json({ 
     message: 'Cosmofy API server', 
     version: '1.0.0',
-    docs: '/api-docs' 
+    docs: '/api-docs',
+    health: '/health'
   });
 });
 
