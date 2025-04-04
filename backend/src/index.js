@@ -17,7 +17,12 @@ dotenv.config();
 
 // Create Express app
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
+
+// Log startup info
+console.log('Starting Cosmofy API server');
+console.log('Environment:', process.env.NODE_ENV || 'development');
+console.log('Port:', PORT);
 
 // Middleware
 app.use(cors({
@@ -117,7 +122,8 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Server listening on 0.0.0.0:${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 }); 

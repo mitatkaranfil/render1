@@ -4,6 +4,11 @@
     "builder": "DOCKERFILE"
   },
   "deploy": {
-    "restartPolicyType": "ON_FAILURE"
+    "restartPolicyType": "ON_FAILURE",
+    "numReplicas": 1,
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 300,
+    "startCommand": "npm start",
+    "restartPolicyMaxRetries": 10
   }
 }
