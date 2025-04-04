@@ -16,22 +16,52 @@ console.log('Node Version:', process.version);
 console.log('Platform:', process.platform);
 console.log('Environment:', process.env.NODE_ENV || 'development');
 
-// Root endpoint
+// Root endpoint - Aynı zamanda healthcheck
 app.get('/', (req, res) => {
-  console.log('Root endpoint çağrıldı');
+  console.log('Root endpoint çağrıldı - IP:', req.ip);
+  res.status(200).send('OK');
+});
+
+// Test endpoint
+app.get('/test', (req, res) => {
+  console.log('Test endpoint çağrıldı');
   res.json({ 
     message: 'Basit Server Çalışıyor',
     timestamp: new Date().toISOString()
   });
 });
 
-// Health check endpoint
+// Eski healthcheck endpoint'ini koru
 app.get('/health', (req, res) => {
   console.log('Health check çağrıldı');
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.status(200).send('OK');
+});
+
+// Diğer rotalar için catch-all
+app.use('*', (req, res) => {
+  console.log('Bilinmeyen endpoint çağrıldı:', req.originalUrl);
+  res.status(404).send('Not Found');
 });
 
 // Server'ı başlat
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server http://0.0.0.0:${PORT} adresinde çalışıyor`);
+});
+
+// Hata yakalama
+server.on('error', (err) => {
+  console.error('Server başlatma hatası:', err);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM sinyali alındı, server kapatılıyor...');
+  server.close(() => {
+    console.log('Server kapatıldı');
+    process.exit(0);
+  });
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Yakalanmamış istisna:', err);
 }); 
