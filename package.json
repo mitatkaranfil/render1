@@ -12,7 +12,7 @@
     "build:frontend": "cd frontend && npm run build",
     "install:all": "npm install && npm run install:backend && npm run install:frontend",
     "install:backend": "cd backend && npm install",
-    "install:frontend": "cd frontend && npm install",
+    "install:frontend": "cd frontend && npm install"
   },
   "engines": {
     "node": ">=16.0.0"
