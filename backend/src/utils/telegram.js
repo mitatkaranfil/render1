@@ -1,5 +1,5 @@
-const telegramWebApp = require('telegram-web-app');
-const dotenv = require('dotenv');
+import telegramWebApp from 'telegram-web-app';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
  * @param {string} initData - Telegram WebApp init data
  * @returns {boolean} Whether the data is valid
  */
-exports.validateTelegramData = (initData) => {
+export const validateTelegramData = (initData) => {
   // DEBUG: VALIDATION BYPASS - SADECE GELIŞTIRME SIRASINDA KULLANILMALI
   console.log('BYPASSING ALL TELEGRAM VALIDATION WITH BYPASS TOKEN');
   
@@ -36,7 +36,7 @@ exports.validateTelegramData = (initData) => {
  * @param {Object} telegramData - Data received from Telegram WebApp
  * @returns {Object|null} User data or null if invalid
  */
-exports.extractTelegramUser = (telegramData) => {
+export const extractTelegramUser = (telegramData) => {
   try {
     if (!telegramData || !telegramData.user) {
       return null;
@@ -56,9 +56,4 @@ exports.extractTelegramUser = (telegramData) => {
     console.error('Error extracting Telegram user data:', error);
     return null;
   }
-};
-
-module.exports = {
-  validateTelegramData,
-  extractTelegramUser
 };
