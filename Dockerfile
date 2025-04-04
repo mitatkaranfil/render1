@@ -9,8 +9,8 @@ RUN cd backend && npm install
 # Tüm kodları kopyala
 COPY . .
 
-# Backend için port
-EXPOSE 3000
+# Açıkça 5000 portunu belirt
+EXPOSE 5000
 
-# Uygulamayı çalıştır
-CMD ["npm", "start"]
+# Çalıştırma komutunu açıkça belirt
+CMD ["node", "backend/src/index.js"]

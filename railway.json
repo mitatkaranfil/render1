@@ -8,7 +8,13 @@
     "numReplicas": 1,
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
-    "startCommand": "npm start",
-    "restartPolicyMaxRetries": 10
+    "startCommand": "node backend/src/index.js",
+    "restartPolicyMaxRetries": 10,
+    "ports": [
+      {
+        "port": 5000,
+        "protocol": "tcp"
+      }
+    ]
   }
 }

@@ -20,22 +20,25 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Log startup info
-console.log('Starting Cosmofy API server');
+console.log('===== STARTING COSMOFY API SERVER =====');
 console.log('Environment:', process.env.NODE_ENV || 'development');
 console.log('Port:', PORT);
+console.log('Process ID:', process.pid);
+console.log('Node Version:', process.version);
+console.log('Platform:', process.platform);
 
-// Middleware
-app.use(cors({
-  origin: '*',
+// CORS Middleware
+const corsOptions = {
+  origin: '*', // Allow requests from any origin
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: '*',
-  exposedHeaders: ['Content-Length', 'Authorization'],
-  credentials: false,
-  maxAge: 86400
-}));
+  credentials: false
+};
+
+app.use(cors(corsOptions));
 
 // Log CORS setup
-console.log('Using simple CORS configuration with wildcard origin');
+console.log('CORS Configuration:', corsOptions);
 
 // CORS pre-flight OPTIONS işlemlerini ele almak için özel ara katman
 app.options('*', (req, res) => {
@@ -123,7 +126,10 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Server listening on 0.0.0.0:${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log('===== SERVER STARTED SUCCESSFULLY =====');
+  console.log(`Server running at: http://0.0.0.0:${PORT}`);
+  console.log(`Local access URL: http://localhost:${PORT}`);
+  console.log(`API base URL: http://0.0.0.0:${PORT}/api`);
+  console.log(`Health check: http://0.0.0.0:${PORT}/health`);
+  console.log('===========================================');
 }); 
