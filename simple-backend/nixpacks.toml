@@ -2,10 +2,10 @@
 nixPkgs = ['nodejs', 'npm']
 
 [phases.install]
-cmds = ['cd simple-backend && npm install']
+cmds = ['npm --prefix simple-backend install']
 
 [phases.build]
 cmds = ['echo "No build required"']
 
 [start]
-cmd = 'cd simple-backend && npm start' 
+cmd = 'node simple-backend/index.js' 
