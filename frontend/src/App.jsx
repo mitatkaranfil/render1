@@ -8,12 +8,12 @@ import Leaderboard from './views/Leaderboard';
 import Loader from './components/ui/Loader';
 
 // Environment variables for configuration
-const API_URL = import.meta.env.VITE_API_URL || 'https://cosmofybot1-18d79623b815.herokuapp.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://server-production-fddc.up.railway.app/api';
 const SKIP_AUTH = import.meta.env.VITE_SKIP_AUTH === 'true';
 
-// Check if we're in development mode or running on Heroku
+// Check if we're in development mode or running on Railway
 const isDevelopment = import.meta.env.DEV || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const isHeroku = window.location.hostname.includes('herokuapp.com');
+const isRailway = window.location.hostname.includes('railway.app');
 const isTelegramWebApp = Boolean(window.Telegram?.WebApp);
 
 // Debug info
@@ -21,7 +21,7 @@ console.log('Environment config:', {
   API_URL,
   SKIP_AUTH,
   isDevelopment,
-  isHeroku,
+  isRailway,
   isTelegramWebApp
 });
 
@@ -33,7 +33,7 @@ const App = () => {
   
   console.log('Auth modes:', {
     isDevelopment,
-    isHeroku,
+    isRailway,
     isTelegramWebApp,
     bypassDev,
     SKIP_AUTH

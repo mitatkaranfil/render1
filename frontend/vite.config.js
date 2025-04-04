@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       // Proxy API requests to backend
       '/api': {
-        target: 'https://cosmofybot1-18d79623b815.herokuapp.com',
+        target: 'https://server-production-fddc.up.railway.app',
         changeOrigin: true,
         secure: true,
       }
@@ -20,8 +20,8 @@ export default defineConfig({
     port: process.env.PORT || 5173,
     host: '0.0.0.0',
     allowedHosts: [
-      'cosmofy-frontend-00d9ca88cc7d.herokuapp.com',
-      '*.herokuapp.com'
+      'server-production-fddc.up.railway.app',
+      '*.railway.app'
     ]
   },
   build: {

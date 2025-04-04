@@ -16,14 +16,10 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://cosmofy-frontend-00d9ca88cc7d.herokuapp.com',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'X-XSRF-TOKEN'],
-  exposedHeaders: ['Content-Length', 'Authorization'],
-  credentials: true,
-  maxAge: 86400,
-  optionsSuccessStatus: 204,
-  preflightContinue: false
+  origin: 'https://server-production-fddc.up.railway.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true
 };
 
 // CORS middleware
