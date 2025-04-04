@@ -1,25 +1,32 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-# İlk olarak package.json ve package-lock.json dosyalarını kopyalıyoruz
+# İlk olarak package.json dosyalarını kopyalıyoruz
 COPY package*.json ./
 
-# Bağımlılıkları indirmek için package.json'ı kopyala
-COPY backend/package*.json ./backend/
-COPY frontend/package*.json ./frontend/
-
-# Önce ana projedeki bağımlılıkları yükle
+# Root level bağımlılıkları kur
 RUN npm install
 
-# Backend ve frontend bağımlılıklarını yükle
+# Backend package.json kopyala ve bağımlılıkları kur
+COPY backend/package*.json ./backend/
 RUN cd backend && npm install
-RUN cd frontend && npm install
 
-# Tüm kaynak kodunu kopyala
+# Frontend package.json kopyala ve bağımlılıkları kur
+COPY frontend/package*.json ./frontend/
+RUN cd frontend && npm install 
+
+# Şimdi tüm kaynak kodlarını kopyala
 COPY . .
 
-# Frontend'i build et
+# NPM, Node ve Yarn versiyonlarını kontrol et
+RUN node --version && npm --version
+
+# Backend oluşturulan dosyalarını kopyala
+RUN cd backend && ls -la
+
+# Frontend build et - izinleri düzelt
+RUN chmod -R 755 /app/frontend/node_modules/.bin
 RUN cd frontend && npm run build
 
 # Backend için port
