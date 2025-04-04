@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "Monorepo for Cosmofy Bot application",
   "main": "simple-backend/index.js",
-  "type": "module",
   "scripts": {
     "start": "node simple-backend/index.js",
-    "preinstall": "npm --prefix simple-backend install"
+    "postinstall": "cd simple-backend && npm install"
   },
   "engines": {
     "node": ">=16.0.0"

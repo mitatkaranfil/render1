@@ -1,11 +1,11 @@
-// ES Modules ile Express uygulaması
-import express from 'express';
+// CommonJS formatında Express uygulaması
+const express = require('express');
 
 // Uygulama oluştur
 const app = express();
 
 // Başlangıç bilgisi
-console.log('Basit uygulama başlatılıyor');
+console.log('Basit uygulama başlatılıyor (CommonJS formatı)');
 console.log('Node sürümü:', process.version);
 console.log('Platform:', process.platform);
 console.log('Çalışma dizini:', process.cwd());
