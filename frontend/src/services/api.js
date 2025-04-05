@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Get API URL from environment variables, fallback to default if not available
-const API_URL = import.meta.env.VITE_API_URL || 'https://cosmofybot.up.railway.app/api';
+// Get API URL from environment variables, fallback to '/api' when running on integrated server
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 // SKIP_AUTH'u false olarak zorluyoruz, bunu hiçbir şekilde etkinleştirmeyeceğiz
 const SKIP_AUTH = false;
 
