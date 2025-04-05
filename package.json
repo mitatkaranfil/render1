@@ -5,8 +5,12 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "build": "cd frontend && npm install && npm run build",
+    "start": "npm run start:backend",
+    "start:backend": "node server.js",
+    "start:frontend": "cd frontend && npm start",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm install && npm run build",
+    "build:frontend": "cd frontend && npm install && npm run build",
     "dev": "node server.js",
     "postinstall": "npm run install-deps && npm run build",
     "install-deps": "npm install && cd backend && npm install && cd ../frontend && npm install"
@@ -33,4 +37,4 @@
     "path": "^0.12.7",
     "telegraf": "^4.16.3"
   }
-} 
+}
